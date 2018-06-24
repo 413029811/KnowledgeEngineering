@@ -18,6 +18,23 @@ def get_content_list(search_txt):
     sparql.setReturnFormat(JSON)
     result = sparql.query().convert()
 
+#save searched text times
+    sw_dict = {}
+    f = open('../../VisualAnalysis/search_temp.txt','r')  
+    if f:
+        a = f.read()  
+        sw_dict = eval(a)  
+    f.close()  
+
+    if search_txt in sw_dict:
+        sw_dict[search_txt] = sw_dict[search_txt] + 1
+    else:
+        sw_dict[search_txt] = 1
+
+    f = open('../../VisualAnalysis/search_temp.txt','w')  
+    f.write(str(sw_dict))  
+    f.close()  
+
     table = []
     wikiPageIDs = []
     for item in result["results"]["bindings"]:
